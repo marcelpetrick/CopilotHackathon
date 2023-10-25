@@ -20,11 +20,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
 
+    public String randomEmoji() {
+        String[] emojilist = new String[128];
+        for (int i = 0; i < 128; i++) {
+            emojilist[i] = new String(Character.toChars(0x1F600 + i));
+        }
+        return emojilist[(int) (Math.random() * 128)];
+    }
+
     @GetMapping("/hello")
     public String hello(@RequestParam(required = false) String key) {
         if (key == null) {
             throw new IllegalArgumentException("key not passed");
         }
-        return "hello " + key;
+        // result is the given input three times repeated and also add a funny random emoji
+        String result = key + key + key + " " + randomEmoji();
+
+        //return this result
+        return result;
     }
+
+
+
 }
